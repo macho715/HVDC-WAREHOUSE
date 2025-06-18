@@ -1,4 +1,12 @@
-data/
-outputs/
-*.pyc
-__pycache__/ 
+# Python
+__pycache__/
+*.py[cod]
+*$py.class
+
+# Output files
+outputs/*.xlsx
+outputs/*.csv
+outputs/~$*
+
+# Data files
+data/*.xlsx 
