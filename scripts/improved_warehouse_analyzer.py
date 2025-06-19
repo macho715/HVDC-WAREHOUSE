@@ -5,7 +5,7 @@ from pandas.tseries.offsets import MonthEnd
 
 class ImprovedWarehouseAnalyzer:
     def __init__(self, excel_path, sheet_name='CASE LIST'):
-        self.df = pd.read_excel(excel_path, sheet_name=sheet_name)
+        self.df = pd.read_excel(excel_path, sheet_name=sheet_name, engine='openpyxl')
         self._preprocess()
         self._identify_columns()
         

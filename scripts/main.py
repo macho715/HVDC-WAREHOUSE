@@ -9,7 +9,7 @@ if __name__ == "__main__":
     
     # 개선된 분석 실행
     print("=== 개선된 분석 실행 ===")
-    improved_analyzer = ImprovedWarehouseAnalyzer('C:/WAREHOUSE/warehouse_analytics/data/HVDC WAREHOUSE_HITACHI(HE).xlsx', sheet_name='CASE LIST')
+    improved_analyzer = ImprovedWarehouseAnalyzer('C:/WAREHOUSE/warehouse_analytics/data/HVDC WAREHOUSE_HITACHI(HE).xlsx', sheet_name='Sheet1')
     
     # 종합 리포트 생성
     results = improved_analyzer.generate_comprehensive_report(start_date='2023-01-01', end_date='2025-12-31')

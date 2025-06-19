@@ -11,6 +11,8 @@ import pandas as pd
 import numpy as np
 from datetime import datetime, timedelta
 import warnings
+from collections import Counter
+from pandas.tseries.offsets import MonthEnd
 warnings.filterwarnings('ignore')
 
 class CorrectedWarehouseAnalyzer:
@@ -24,7 +26,7 @@ class CorrectedWarehouseAnalyzer:
         """
         self.excel_path = excel_path
         self.sheet_name = sheet_name
-        self.df = pd.read_excel(excel_path, sheet_name=sheet_name)
+        self.df = pd.read_excel(excel_path, sheet_name=sheet_name, engine='openpyxl')
         
         # 날짜 컬럼들을 datetime으로 변환
         date_columns = ['DSV Indoor', 'DSV Al Markaz', 'DSV Outdoor', 'Hauler Indoor', 'DSV MZP', 'MOSB', 'MIR', 'SHU', 'DAS', 'AGI']
@@ -38,6 +40,24 @@ class CorrectedWarehouseAnalyzer:
         
         print(f"입고 컬럼: {self.warehouse_cols}")
         print(f"출고 컬럼: {self.site_cols}")
+        
+        self._preprocess()
+        self._identify_columns()
+    
+    def _preprocess(self):
+        # 창고 및 현장 컬럼 정의
+        self.warehouse_cols = ['DSV Indoor', 'DSV Al Markaz', 'DSV Outdoor', 'Hauler Indoor', 'DSV MZP', 'MOSB']
+        self.site_cols = ['MIR', 'SHU', 'DAS', 'AGI']
+        
+        print(f"입고 컬럼: {self.warehouse_cols}")
+        print(f"출고 컬럼: {self.site_cols}")
+    
+    def _identify_columns(self):
+        # 날짜 컬럼들을 datetime으로 변환
+        date_columns = ['DSV Indoor', 'DSV Al Markaz', 'DSV Outdoor', 'Hauler Indoor', 'DSV MZP', 'MOSB', 'MIR', 'SHU', 'DAS', 'AGI']
+        for col in date_columns:
+            if col in self.df.columns:
+                self.df[col] = pd.to_datetime(self.df[col], errors='coerce')
     
     def get_case_timeline(self, case_row):
         """

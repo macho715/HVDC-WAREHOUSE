@@ -1,0 +1,387 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Project Status Report: UAE Independent Subsea HVDC System</title>
+    <script src="https://cdn.tailwindcss.com"></script>
+    <script src="https://cdn.jsdelivr.net/npm/chart.js"></script>
+    <link rel="preconnect" href="https://fonts.googleapis.com">
+    <link rel="preconnect" href="https://fonts.gstatic.com" crossorigin>
+    <link href="https://fonts.googleapis.com/css2?family=Inter:wght@400;500;600;700;900&display=swap" rel="stylesheet">
+    <!-- 
+    Color Palette: Brilliant Blues
+    - #003F5C (Primary Text, Dark Background)
+    - #366E8A (Chart Element 1, Accents)
+    - #6B9DB3 (Chart Element 2, Borders)
+    - #A5CAD6 (Chart Element 3, Highlights)
+    - #E2F0F4 (Light Background)
+    -->
+    <!--
+    Narrative Plan:
+    1.  Hook: Juxtapose misleading overall progress with critical construction failure.
+    2.  EPC Progress Deep Dive: Use donut charts to break down EPC, showing where the failure lies.
+    3.  Construction & Commissioning Bottleneck: Use bar charts to detail the collapse of key disciplines.
+    4.  Warehouse Gridlock: Visualize the massive inventory stuck in warehouses with a stacked bar chart.
+    5.  External Reality Check: Compare project timeline against industry benchmarks using an HTML/CSS timeline.
+    6.  Risk Cascade: Use an HTML/CSS flowchart to show how construction delays create regulatory approval failures.
+    7.  New Forecast: Conclude with a line/area chart showing the realistic completion window (2026-2027).
+    -->
+    <!--
+    Visualization Choices:
+    -   EPC Progress: Goal: Compare. Choice: Donut Charts. Justification: Shows part-to-whole relationship clearly, highlighting the low Construction value. Method: Chart.js (Canvas). NO SVG.
+    -   Discipline Progress: Goal: Compare. Choice: Horizontal Bar Chart. Justification: Best for comparing multiple categories with long labels. Method: Chart.js (Canvas). NO SVG.
+    -   Warehouse Inventory: Goal: Compare/Composition. Choice: Stacked Bar Chart. Justification: Shows totals per location and supplier breakdown. Method: Chart.js (Canvas). NO SVG.
+    -   External Benchmarks: Goal: Change/Compare. Choice: HTML Timeline. Justification: Clearly shows sequence and duration without prohibited libraries. Method: HTML/CSS with Tailwind. NO SVG.
+    -   Risk Flow: Goal: Organize/Relationships. Choice: HTML Flowchart. Justification: Represents process flow using standard elements. Method: HTML/CSS with Tailwind. NO SVG.
+    -   New Timeline: Goal: Change/Forecast. Choice: Line Chart with Area. Justification: Excellent for showing forecast range over time. Method: Chart.js (Canvas). NO SVG.
+    -->
+    <!-- Final Check: NO SVG used. NO Mermaid JS used. All diagrams are HTML/CSS. All charts use Chart.js with Canvas rendering. -->
+    <style>
+        body { font-family: 'Inter', sans-serif; background-color: #E2F0F4; }
+        .chart-container { position: relative; width: 100%; max-width: 600px; margin-left: auto; margin-right: auto; height: 300px; max-height: 400px; }
+        @media (min-width: 768px) { .chart-container { height: 350px; } }
+        .kpi-card { background-color: white; border-radius: 0.5rem; box-shadow: 0 4px 6px -1px rgb(0 0 0 / 0.1), 0 2px 4px -2px rgb(0 0 0 / 0.1); padding: 1.5rem; text-align: center; }
+        .kpi-value { font-size: 3rem; font-weight: 900; color: #003F5C; }
+        .kpi-label { font-size: 1rem; color: #366E8A; margin-top: 0.5rem; }
+    </style>
+</head>
+<body class="text-[#003F5C]">
+
+    <div class="container mx-auto p-4 md:p-8">
+        
+        <header class="text-center mb-12">
+            <h1 class="text-4xl md:text-5xl font-bold mb-2">Independent Subsea HVDC System</h1>
+            <h2 class="text-2xl md:text-3xl font-semibold text-[#366E8A]">Project Status Analysis & Reality Check</h2>
+            <p class="text-lg text-gray-600 mt-2">Cut-off Date: 2025-06-06</p>
+        </header>
+
+        <section id="executive-summary" class="mb-16">
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8 text-center">
+                <div class="kpi-card">
+                    <div class="kpi-value">74.7%</div>
+                    <div class="kpi-label">Reported Overall Progress</div>
+                </div>
+                <div class="kpi-card bg-red-100 border border-red-300">
+                    <div class="kpi-value text-red-700">52.6%</div>
+                    <div class="kpi-label text-red-600">Actual Construction Progress</div>
+                </div>
+                <div class="kpi-card">
+                    <div class="kpi-value">0.4%</div>
+                    <div class="kpi-label">Actual Commissioning Progress</div>
+                </div>
+            </div>
+            <div class="mt-8 bg-white p-6 rounded-lg shadow-md">
+                <p class="text-lg text-center text-[#003F5C]"><strong>Executive Summary:</strong> While overall progress appears high at 74.7%, this figure is critically misleading. High completion rates in Engineering (93.1%) and Procurement (95.8%) are masking a catastrophic failure in Construction (52.6%) and a near-total collapse in Commissioning (0.4%). The project is not merely delayed; it is functionally stalled at the physical implementation stage. The 2025 completion target is unachievable under any scenario.</p>
+            </div>
+        </section>
+
+        <section id="epc-breakdown" class="mb-16">
+            <h3 class="text-3xl font-bold text-center mb-8">The Illusion of Progress: EPC Breakdown</h3>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-gray-700">The project's health cannot be judged by the total progress number. A closer look at the Engineering, Procurement, and Construction (EPC) components reveals that while the 'paperwork' phases are nearly done, the critical 'building' phase has failed, creating an insurmountable bottleneck.</p>
+            <div class="grid grid-cols-1 md:grid-cols-3 gap-8">
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-semibold text-center mb-4">Engineering</h4>
+                    <div class="chart-container h-64 md:h-80"><canvas id="engineeringChart"></canvas></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-semibold text-center mb-4">Procurement</h4>
+                    <div class="chart-container h-64 md:h-80"><canvas id="procurementChart"></canvas></div>
+                </div>
+                <div class="bg-white p-6 rounded-lg shadow-md">
+                    <h4 class="text-xl font-semibold text-center mb-4">Construction</h4>
+                    <div class="chart-container h-64 md:h-80"><canvas id="constructionChart"></canvas></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="discipline-failure" class="mb-16">
+            <h3 class="text-3xl font-bold text-center mb-8">Discipline Breakdown: The Core of the Failure</h3>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-gray-700">The project's paralysis stems from the collapse of critical construction disciplines. Without progress in these key areas, especially Electrical and Piping, no amount of completed engineering or procurement can move the project forward. Commissioning cannot begin without completed construction.</p>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                 <div class="chart-container h-96 md:h-[500px] max-w-4xl"><canvas id="disciplineProgressChart"></canvas></div>
+            </div>
+        </section>
+        
+        <section id="material-gridlock" class="mb-16">
+            <h3 class="text-3xl font-bold text-center mb-8">Warehouse Gridlock: Materials Awaiting Installation</h3>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-gray-700">Procurement is 95.8% complete, but this success has created a new problem: a logistical nightmare. Over 4,000 critical components from key suppliers like Hitachi and Siemens are sitting idle in warehouses, unable to be installed due to the construction standstill. This represents a massive waste of resources and capital.</p>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="chart-container h-96 max-w-4xl"><canvas id="warehouseStockChart"></canvas></div>
+            </div>
+        </section>
+        
+        <section id="reality-check" class="mb-16">
+            <h3 class="text-3xl font-bold text-center mb-8">Reality Check: External HVDC Project Benchmarks</h3>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-gray-700">To understand the true timeline, we must look at similar global projects. The data is clear: even after major installation is complete, final commissioning and handover takes an average of 12 to 20 months. Our project has not yet reached the installation complete milestone.</p>
+            <div class="bg-white p-8 rounded-lg shadow-md">
+                <div class="space-y-6">
+                    <div class="flex items-center">
+                        <div class="w-1/3 font-bold text-lg">BorWin2</div>
+                        <div class="w-2/3 flex items-center">
+                            <div class="w-1/4 h-8 bg-[#366E8A] rounded-l-md flex items-center justify-center text-white">7mo</div>
+                            <div class="w-1/4 h-8 bg-[#6B9DB3] rounded-r-md flex items-center justify-center text-white">9mo</div>
+                            <div class="ml-4 text-gray-600">Total: 16 months</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-1/3 font-bold text-lg">HelWin1</div>
+                        <div class="w-2/3 flex items-center">
+                            <div class="w-2/5 h-8 bg-[#366E8A] rounded-l-md flex items-center justify-center text-white">17mo</div>
+                            <div class="w-2/5 h-8 bg-[#6B9DB3] rounded-r-md flex items-center justify-center text-white">18mo</div>
+                            <div class="ml-4 text-gray-600">Total: 35 months</div>
+                        </div>
+                    </div>
+                    <div class="flex items-center">
+                        <div class="w-1/3 font-bold text-lg">DolWin1</div>
+                        <div class="w-2/3 flex items-center">
+                             <div class="w-1/3 h-8 bg-[#366E8A] rounded-l-md flex items-center justify-center text-white">16mo</div>
+                             <div class="w-3/5 h-8 bg-[#6B9DB3] rounded-r-md flex items-center justify-center text-white">23mo</div>
+                             <div class="ml-4 text-gray-600">Total: 39 months</div>
+                        </div>
+                    </div>
+                </div>
+                <div class="mt-6 flex justify-start items-center space-x-6 border-t pt-4">
+                    <div class="flex items-center"><div class="w-4 h-4 bg-[#366E8A] mr-2 rounded"></div><span>Installation to Commissioning</span></div>
+                    <div class="flex items-center"><div class="w-4 h-4 bg-[#6B9DB3] mr-2 rounded"></div><span>Commissioning to Handover</span></div>
+                </div>
+            </div>
+        </section>
+
+        <section id="risk-cascade" class="mb-16">
+            <h3 class="text-3xl font-bold text-center mb-8">Risk Cascade: The Path to Regulatory Failure</h3>
+             <p class="text-center max-w-3xl mx-auto mb-10 text-gray-700">The project delays are creating a domino effect of risk. Stalled construction prevents commissioning, which in turn makes it impossible to prepare for and obtain mandatory approvals from regulatory bodies like MOEI and FANR. This unpreparedness guarantees significant future delays, even if construction were to resume today.</p>
+            <div class="bg-white p-8 rounded-lg shadow-md text-center">
+                <div class="flex flex-col md:flex-row justify-center items-center md:items-start space-y-4 md:space-y-0 md:space-x-4">
+                    <div class="p-4 border-2 border-red-400 bg-red-50 rounded-lg">
+                        <h4 class="font-bold text-red-700">1. Construction Failure</h4>
+                        <p class="text-sm text-red-600">Electrical: 15.2%<br>Piping: 11.5%</p>
+                    </div>
+                    <div class="text-3xl font-bold text-gray-400 transform md:rotate-0 rotate-90">&rarr;</div>
+                    <div class="p-4 border-2 border-yellow-400 bg-yellow-50 rounded-lg">
+                        <h4 class="font-bold text-yellow-700">2. Commissioning Stalled</h4>
+                        <p class="text-sm text-yellow-600">Overall Progress: 0.4%<br>Cannot test systems</p>
+                    </div>
+                     <div class="text-3xl font-bold text-gray-400 transform md:rotate-0 rotate-90">&rarr;</div>
+                    <div class="p-4 border-2 border-gray-400 bg-gray-50 rounded-lg">
+                        <h4 class="font-bold text-gray-700">3. Regulatory Approval Blocked</h4>
+                        <p class="text-sm text-gray-600">MOEI & FANR submission<br>not possible</p>
+                    </div>
+                </div>
+            </div>
+        </section>
+
+        <section id="new-timeline" class="mb-16">
+            <h3 class="text-3xl font-bold text-center mb-8">New Forecast: A Realistic Path to Completion</h3>
+            <p class="text-center max-w-3xl mx-auto mb-10 text-gray-700">Based on current progress rates, external benchmarks, and unresolved risks, a new timeline is necessary. The most optimistic completion is late 2025, but a realistic forecast places project handover between late 2026 and mid-2027. This must become the new baseline for all planning.</p>
+            <div class="bg-white p-6 rounded-lg shadow-md">
+                <div class="chart-container h-96 max-w-4xl"><canvas id="forecastChart"></canvas></div>
+            </div>
+        </section>
+        
+        <footer class="text-center mt-12 py-4 border-t border-[#A5CAD6]">
+            <p class="text-sm text-gray-500">This infographic is based on project data as of 2025-06-06. All forecasts are derived from supplied reports and external benchmarks.</p>
+        </footer>
+
+    </div>
+
+    <script>
+        const chartTooltipCallback = {
+            plugins: {
+                tooltip: {
+                    callbacks: {
+                        title: function(tooltipItems) {
+                            const item = tooltipItems[0];
+                            let label = item.chart.data.labels[item.dataIndex];
+                            if (Array.isArray(label)) {
+                              return label.join(' ');
+                            }
+                            return label;
+                        }
+                    }
+                }
+            }
+        };
+
+        const wrapLabel = (label) => {
+            const maxLength = 16;
+            if (label.length <= maxLength) return label;
+            const words = label.split(' ');
+            let lines = [];
+            let currentLine = '';
+            words.forEach(word => {
+                if ((currentLine + ' ' + word).trim().length > maxLength) {
+                    lines.push(currentLine.trim());
+                    currentLine = word;
+                } else {
+                    currentLine = (currentLine + ' ' + word).trim();
+                }
+            });
+            lines.push(currentLine.trim());
+            return lines;
+        };
+
+        const createDonutChart = (ctx, label, progress) => {
+            new Chart(ctx, {
+                type: 'doughnut',
+                data: {
+                    labels: ['Completed', 'Remaining'],
+                    datasets: [{
+                        data: [progress, 100 - progress],
+                        backgroundColor: [progress < 60 ? '#EF4444' : '#366E8A', '#E2F0F4'],
+                        borderColor: [progress < 60 ? '#EF4444' : '#366E8A', '#A5CAD6'],
+                        borderWidth: 1
+                    }]
+                },
+                options: {
+                    responsive: true,
+                    maintainAspectRatio: false,
+                    cutout: '70%',
+                    plugins: {
+                        legend: { display: false },
+                        tooltip: { enabled: false }
+                    }
+                }
+            });
+        };
+
+        const engineeringData = 93.1;
+        const procurementData = 95.8;
+        const constructionData = 52.6;
+
+        const engCtx = document.getElementById('engineeringChart').getContext('2d');
+        const procCtx = document.getElementById('procurementChart').getContext('2d');
+        const consCtx = document.getElementById('constructionChart').getContext('2d');
+
+        createDonutChart(engCtx, 'Engineering', engineeringData);
+        createDonutChart(procCtx, 'Procurement', procurementData);
+        createDonutChart(consCtx, 'Construction', constructionData);
+
+        const disciplineData = {
+            labels: ['Electrical', 'Piping', 'I&C', 'Fire Protection', 'General', 'Civil', 'Architecture'],
+            progress: [15.2, 11.5, 1.7, 51.8, 46.9, 65.3, 80.5]
+        };
+
+        const disciplineCtx = document.getElementById('disciplineProgressChart').getContext('2d');
+        new Chart(disciplineCtx, {
+            type: 'bar',
+            data: {
+                labels: disciplineData.labels.map(l => wrapLabel(l)),
+                datasets: [{
+                    label: 'Construction Progress (%)',
+                    data: disciplineData.progress,
+                    backgroundColor: '#366E8A',
+                    borderColor: '#003F5C',
+                    borderWidth: 1
+                }]
+            },
+            options: {
+                indexAxis: 'y',
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: {
+                        beginAtZero: true,
+                        max: 100,
+                        grid: { color: '#E2F0F4' }
+                    },
+                    y: {
+                        grid: { display: false }
+                    }
+                },
+                plugins: {
+                    ...chartTooltipCallback.plugins,
+                    legend: { display: false }
+                }
+            }
+        });
+        
+        const warehouseData = {
+            labels: ['DSV Indoor', 'DSV Outdoor', 'DSV Al Markaz', 'Hauler Indoor', 'DHL WH'],
+            hitachi: [1154, 1038, 831, 392, 102],
+            siemens: [179, 404, 0, 0, 0] 
+        };
+
+        const warehouseCtx = document.getElementById('warehouseStockChart').getContext('2d');
+        new Chart(warehouseCtx, {
+            type: 'bar',
+            data: {
+                labels: warehouseData.labels.map(l => wrapLabel(l)),
+                datasets: [
+                    {
+                        label: 'Hitachi Stock (items)',
+                        data: warehouseData.hitachi,
+                        backgroundColor: '#366E8A'
+                    },
+                    {
+                        label: 'Siemens Stock (items)',
+                        data: warehouseData.siemens,
+                        backgroundColor: '#A5CAD6'
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    x: { stacked: true, grid: { display: false } },
+                    y: { stacked: true, grid: { color: '#E2F0F4' } }
+                },
+                plugins: {
+                    ...chartTooltipCallback.plugins,
+                    legend: { position: 'top' }
+                }
+            }
+        });
+
+        const forecastCtx = document.getElementById('forecastChart').getContext('2d');
+        new Chart(forecastCtx, {
+            type: 'line',
+            data: {
+                labels: ['Jun 25', 'Dec 25', 'Jun 26', 'Dec 26', 'Jun 27'],
+                datasets: [
+                    {
+                        label: 'Most Likely Completion',
+                        data: [null, null, null, 75, 100], 
+                        borderColor: '#003F5C',
+                        tension: 0.1,
+                        fill: false
+                    },
+                    {
+                        label: 'Earliest Completion',
+                        data: [null, 100, null, null, null],
+                        borderColor: '#6B9DB3',
+                        borderDash: [5, 5],
+                        tension: 0.1,
+                        fill: false
+                    },
+                     {
+                        label: 'Realistic Window',
+                        data: [null, null, 25, 75, 100],
+                        borderColor: 'transparent',
+                        backgroundColor: 'rgba(165, 202, 214, 0.3)',
+                        fill: true,
+                        pointRadius: 0,
+                    }
+                ]
+            },
+            options: {
+                responsive: true,
+                maintainAspectRatio: false,
+                scales: {
+                    y: {
+                        beginAtZero: true,
+                        max: 100,
+                        title: { display: true, text: 'Completion %' }
+                    }
+                },
+                 plugins: {
+                    ...chartTooltipCallback.plugins,
+                    legend: { position: 'top' }
+                }
+            }
+        });
+
+    </script>
+</body>
+</html>
