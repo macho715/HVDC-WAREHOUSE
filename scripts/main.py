@@ -1,13 +1,10 @@
-from warehouse_analyzer import WarehouseAnalyzer
-from warehouse_monthly_analyzer import WarehouseMonthlyAnalyzer
 from improved_warehouse_analyzer import ImprovedWarehouseAnalyzer
 import os
 import pandas as pd
 
 if __name__ == "__main__":
     print("=== HVDC Warehouse 분석 시스템 ===")
-    print("1. 기존 분석 (기본)")
-    print("2. 개선된 분석 (정확한 이벤트 추적)")
+    print("개선된 분석 (정확한 이벤트 추적) 실행 중...")
     print()
     
     # 개선된 분석 실행

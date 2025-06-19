@@ -1,199 +1,192 @@
-# HVDC Warehouse Analytics System
+# Warehouse Analytics System
 
-정확한 Case별 이벤트 기반 창고 분석 시스템
+## 개요
+HVDC 창고 데이터를 분석하여 월별 재고 현황, 공급사별 요약, 창고별 재고 현황, 피벗 테이블 분석, 데드스톡 분석을 제공하는 시스템입니다.
 
-## 🎯 프로젝트 개요
-
-HVDC Warehouse의 물자 입출고, 재고, KPI, 리드타임을 Excel 데이터 기반으로 자동 분석하는 시스템입니다.
-
-## ✨ 주요 기능
-
-### 1. 정확한 Case별 이벤트 기반 재고 집계
-- 각 Case의 실제 이동 순서를 추적
-- 창고 간 이동 시 이중 카운트 방지
-- 정확한 월별 입출고/재고 산출
-
-### 2. 월별 창고/현장 분석
-- 창고별 월별 입출고/재고 집계
-- 현장별 월별 누적 입고량 집계
-- Dead Stock 분석 (90일 이상 미출고)
-
-### 3. 물류 이상 감지 시스템
-- 장기체류 품목 자동 식별 (180일, 365일 등)
-- 현재 미출고 상태 및 체류일수 계산
-- 긴급 조치 필요 Case 우선순위 지정
-- 창고별/체류기간별 분석 리포트
-
-### 4. 리드타임 분석
-- Case별 입고부터 출고까지의 리드타임 계산
-- 창고별/자재 카테고리별 통계 분석
-- 입고/출고 누락 Case 분류
-
-### 5. 필터링 분석
-- 조건별 데이터 필터링 (창고, 현장, 저장타입, 자재카테고리, 상태)
-- 필터링된 데이터의 월별 입출고/재고 재계산
-
-### 6. 지도 시각화 시스템
-- 창고와 현장의 지리적 위치를 인터랙티브 지도에 표시
-- 각 위치 클릭 시 월별 입출고량 그래프 팝업
-- Folium과 Matplotlib을 활용한 HTML 기반 시각화
-
-### 7. 종합 분석 리포트 시스템
-- KPI, 누적재고, 도달률, Dead Stock, 회전율 자동 분석
-- 시각화 차트 자동 생성 (리드타임 분포, 회전율 추이)
-- Excel 보고서 자동 생성 (다중 시트, 이미지 포함)
-- 실무에서 바로 사용 가능한 통합 분석 도구
-
-### 8. 실무형 인벤토리 대시보드
-- 오빠두엑셀 스타일의 전문적인 대시보드
-- KPI 타일, 차트, 조건부서식 자동 생성
-- 상단 KPI 요약, 중앙 차트, 하단 상세 데이터 레이아웃
-- Dead Stock 위험도 구분 (90일+ 노랑, 180일+ 빨강)
-- 실무에서 바로 사용 가능한 레이아웃
-
-### 9. 자동 엑셀 리포트 생성
-- 타임스탬프가 포함된 고유 파일명
-- 다중 시트 구성 (창고별, 현장별, 요약, Dead Stock)
-- 자동 파일 열기 기능
-
-## 🚀 사용법
-
-### 1. 기본 실행
-```bash
-python case_based_inventory.py
-```
-
-### 2. 개선된 분석 실행
-```bash
-python run_improved_analysis.py
-```
-
-### 3. 정확한 분석 실행
-```bash
-python run_corrected_analysis.py
-```
-
-### 4. 물류 이상 감지
-```bash
-python anomaly_detection.py
-```
-
-### 5. 리드타임 분석
-```bash
-python leadtime_analyzer.py
-```
-
-### 6. 필터링 분석
-```bash
-python filtered_analysis.py
-```
-
-### 7. 지도 시각화
-```bash
-python create_map_visualization.py
-```
-
-### 8. 종합 분석 리포트
-```bash
-python comprehensive_analysis_report.py
-```
-
-### 9. 실무형 대시보드
-```bash
-python create_dashboard.py
-```
-
-## 📁 프로젝트 구조
-
+## 파일 구조
 ```
 warehouse_analytics/
-├── data/                          # 원본 데이터 파일
-│   └── HVDC WAREHOUSE_HITACHI(HE).xlsx
-├── scripts/                       # 핵심 분석 모듈
-│   ├── improved_warehouse_analyzer.py
-│   ├── corrected_warehouse_analyzer.py
-│   └── ...
-├── outputs/                       # 생성된 엑셀 파일들
-├── case_based_inventory.py        # 메인 실행 스크립트
-├── run_improved_analysis.py       # 개선된 분석 실행
-├── run_corrected_analysis.py      # 정확한 분석 실행
-├── anomaly_detection.py           # 물류 이상 감지 시스템
-├── leadtime_analyzer.py           # 리드타임 분석
-├── filtered_analysis.py           # 필터링 분석
-├── create_map_visualization.py    # 지도 시각화 시스템
-├── comprehensive_analysis_report.py # 종합 분석 리포트 시스템
-├── create_dashboard.py            # 실무형 인벤토리 대시보드
-├── debug_inventory.py             # 재고 오류 진단
-└── README.md
+├── data/                                    # 원본 엑셀 데이터 파일
+│   ├── HVDC WAREHOUSE_HITACHI(HE).xlsx
+│   ├── HVDC WAREHOUSE_HITACHI(HE_LOCAL).xlsx
+│   ├── HVDC WAREHOUSE_HITACHI(HE-0214,0252).xlsx
+│   └── HVDC WAREHOUSE_SIMENSE(SIM).xlsx
+├── scripts/                                 # 핵심 분석 모듈
+│   ├── main.py                             # 메인 실행 파일
+│   ├── improved_warehouse_analyzer.py       # 개선된 분석기 (정확한 이벤트 추적)
+│   └── corrected_warehouse_analyzer.py      # 수정된 분석기
+├── outputs/                                 # 생성된 분석 결과 파일
+├── case_based_analysis_english_pivot.py    # 메인 분석 스크립트 (영어 버전 + 피벗 테이블)
+├── comprehensive_analysis_report.py        # 종합 분석 리포트
+├── comprehensive_leadtime_analyzer.py      # 종합 리드타임 분석
+├── anomaly_detection.py                    # 이상 감지 시스템
+├── create_advanced_dashboard.py            # 고급 대시보드 생성
+├── create_map_visualization.py             # 지도 시각화
+├── generate_practical_report.py            # 실무용 리포트 생성
+└── README.md                               # 이 파일
 ```
 
-## 📊 분석 결과
+## 주요 기능
 
-### 창고별 최종 재고 (Case별 이벤트 기반)
-- DSV Outdoor: 826건
-- DSV Indoor: 414건
-- DSV Al Markaz: 812건
-- Hauler Indoor: 392건
-- DSV MZP: 10건
-- MOSB: 43건
+### 1. 데이터 처리
+- 4개 공급사 데이터 통합 처리
+  - HITACHI
+  - HITACHI_LOCAL
+  - HITACHI_LOT
+  - SIEMENS
+- 창고별 입고/출고/재고 추적
+- 현장별 누적 입고 추적
 
-### 현장별 최종 누적입고
-- DAS: 678건
-- MIR: 753건
-- SHU: 1221건
-- AGI: 34건
+### 2. 창고 분류
+- **Indoor**: DSV Indoor, Hauler Indoor, DSV Al Markaz, AAA Storage, DHL WH
+- **Outdoor**: DSV Outdoor, DSV MZP, MOSB
+- **Dangerous**: AAA Storage
 
-### 물류 이상 감지 결과 (180일 기준)
-- 전체 미출고 Case: 1,657건
-- 긴급 조치 필요 Case (365일+): 403건
-- 최장 체류일수: 512일
-- 평균 체류일수: 334.2일
+### 3. 생성되는 엑셀 시트
 
-### 종합 분석 결과
-- Dead Stock (90일+): 1,741건
-- Site별 도달률 및 평균 리드타임 자동 계산
-- 창고별 월별 회전율 분석
-- 시각화 차트 자동 생성
+#### Consolidated_Status
+- 월별 상세 재고 현황
+- 공급사별 창고별 입고/출고/재고 데이터
+- 현장별 입고/누적 입고 데이터
 
-### 실무형 대시보드 구성
-- 📊 상단 KPI 타일 (총 입고, 총 출고, 현재 재고, Dead Stock)
-- 📈 월별 입고 추이 차트 (창고별)
-- 📉 월별 출고 추이 차트 (창고별)
-- 🏗️ 현장별 누적 입고 차트
-- 🚨 Dead Stock 상세 리스트 (조건부서식)
-- 📖 사용법 안내 시트
+#### Overall_Supplier_Summary
+- 공급사별 전체 요약
+- 총 창고 입고/출고/재고
+- 총 현장 누적 입고
 
-## 🔧 기술 스택
+#### Warehouse_Stock_Summary
+- 창고별 상세 재고 현황
+- 창고 분류(Indoor/Outdoor/Dangerous) 포함
+- 입고/출고/현재 재고
 
-- **Python 3.x**
-- **pandas**: 데이터 처리 및 분석
-- **openpyxl**: 엑셀 파일 생성
-- **datetime**: 날짜/시간 처리
-- **numpy**: 수치 계산
-- **folium**: 인터랙티브 지도 생성
-- **matplotlib**: 차트 및 그래프 생성
-- **seaborn**: 고급 시각화
-- **xlsxwriter**: 전문적인 엑셀 대시보드 생성
+#### Pivoted_Monthly_Summary (NEW)
+- 월별 피벗 테이블 분석
+- 창고 분류별 공급사별 데이터 집계
+- In/Out/Stock 메트릭별 분석
 
-## 📋 요구사항
+#### DeadStock_Analysis
+- 90일 이상 창고에 보관된 데드스톡 분석
+- 공급사별 케이스별 상세 정보
 
+## 실행 방법
+
+### 1. 환경 설정
 ```bash
-pip install -r requirements.txt
+# 필요한 라이브러리 설치
+pip install pandas openpyxl xlsxwriter
 ```
 
-## 🎯 핵심 개선사항
+### 2. 메인 스크립트 실행
+```bash
+cd warehouse_analytics/scripts
+python main.py
+```
 
-1. **정확한 재고 산출**: Case별 실제 마지막 위치 기준
-2. **이중 카운트 방지**: 창고 간 이동 시 중복 집계 제거
-3. **물류 이상 감지**: 장기체류 품목 자동 식별
-4. **리드타임 분석**: Case별 입출고 시간 분석
-5. **필터링 분석**: 조건별 맞춤 분석
-6. **지도 시각화**: 지리적 위치 기반 인터랙티브 분석
-7. **종합 분석**: KPI, 회전율, 시각화 통합 분석
-8. **실무형 대시보드**: 오빠두엑셀 스타일의 전문적인 레이아웃
-9. **자동화**: 엑셀 파일 자동 생성 및 열기
-10. **검증 가능**: 디버깅 도구 포함
+### 3. 특화 분석 스크립트 실행
+```bash
+cd warehouse_analytics
 
-## 📝 라이선스
+# 영어 버전 + 피벗 테이블 분석
+python case_based_analysis_english_pivot.py
 
-이 프로젝트는 내부 사용을 위한 것입니다.
+# 종합 분석 리포트
+python comprehensive_analysis_report.py
+
+# 리드타임 분석
+python comprehensive_leadtime_analyzer.py
+
+# 이상 감지
+python anomaly_detection.py
+
+# 고급 대시보드
+python create_advanced_dashboard.py
+
+# 지도 시각화
+python create_map_visualization.py
+
+# 실무용 리포트
+python generate_practical_report.py
+```
+
+### 4. 결과 확인
+- `outputs/` 폴더에 타임스탬프가 포함된 엑셀 파일 생성
+- 파일명: `Consolidated_Inventory_Report_YYYYMMDD_HHMMSS.xlsx`
+
+## 설정 옵션
+
+### 파일 경로 설정
+```python
+file_map = {
+    'HITACHI': 'data/HVDC WAREHOUSE_HITACHI(HE).xlsx',
+    'HITACHI_LOCAL': 'data/HVDC WAREHOUSE_HITACHI(HE_LOCAL).xlsx',
+    'HITACHI_LOT': 'data/HVDC WAREHOUSE_HITACHI(HE-0214,0252).xlsx',
+    'SIEMENS': 'data/HVDC WAREHOUSE_SIMENSE(SIM).xlsx',
+}
+```
+
+### 창고 컬럼 설정
+```python
+warehouse_cols_map = {
+    'HITACHI': ['DSV Outdoor', 'DSV Indoor', 'DSV Al Markaz', 'Hauler Indoor', 'DSV MZP', 'MOSB'],
+    'HITACHI_LOCAL': ['DSV Outdoor', 'DSV Al Markaz', 'DSV MZP', 'MOSB'],
+    'HITACHI_LOT': ['DSV Indoor', 'DHL WH', 'DSV Al Markaz', 'AAA Storage'],
+    'SIEMENS': ['DSV Outdoor', 'DSV Indoor', 'DSV Al Markaz', 'MOSB', 'AAA Storage'],
+}
+```
+
+### 현장 컬럼 설정
+```python
+site_cols = ['DAS', 'MIR', 'SHU', 'AGI']
+```
+
+### 분석 기준 설정
+```python
+DEADSTOCK_DAYS = 90  # 데드스톡 기준 (일)
+target_month = "2025-06"  # 분석 대상 월
+```
+
+## 주요 개선사항
+
+### 1. 피벗 테이블 기능 추가
+- 월별 데이터를 창고 분류별로 피벗하여 분석
+- 공급사별 비교 분석 가능
+- In/Out/Stock 메트릭별 집계
+
+### 2. 영어 버전 완성
+- 모든 컬럼명과 값이 영어로 표시
+- 국제 표준에 맞는 분석 리포트
+
+### 3. 자동 파일 열기
+- 분석 완료 후 자동으로 엑셀 파일 열기
+- Windows/Mac/Linux 호환
+
+### 4. 정확한 이벤트 추적
+- 입고→창고간이동→출고의 정확한 이벤트 추적
+- 누적 재고 계산의 정확성 향상
+
+## 문제 해결
+
+### 파일 경로 오류
+- 상대 경로 문제 해결: `warehouse_analytics/data/` → `data/`
+- 현재 작업 디렉토리 기준으로 경로 설정
+
+### Python 실행 문제
+- Microsoft Store 버전 Python 런처 문제 해결
+- `py` 명령어 사용으로 해결
+
+## 향후 개선 계획
+
+1. **대시보드 기능**
+   - 웹 기반 대시보드 추가
+   - 실시간 데이터 시각화
+
+2. **자동화 기능**
+   - 스케줄러를 통한 자동 분석
+   - 이메일 알림 기능
+
+3. **고급 분석**
+   - 예측 분석 기능
+   - 이상치 탐지 기능
+
+## 문의사항
+추가 기능이나 수정 사항이 필요하시면 언제든 말씀해 주세요.
