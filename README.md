@@ -33,7 +33,25 @@ HVDC Warehouse의 물자 입출고, 재고, KPI, 리드타임을 Excel 데이터
 - 조건별 데이터 필터링 (창고, 현장, 저장타입, 자재카테고리, 상태)
 - 필터링된 데이터의 월별 입출고/재고 재계산
 
-### 6. 자동 엑셀 리포트 생성
+### 6. 지도 시각화 시스템
+- 창고와 현장의 지리적 위치를 인터랙티브 지도에 표시
+- 각 위치 클릭 시 월별 입출고량 그래프 팝업
+- Folium과 Matplotlib을 활용한 HTML 기반 시각화
+
+### 7. 종합 분석 리포트 시스템
+- KPI, 누적재고, 도달률, Dead Stock, 회전율 자동 분석
+- 시각화 차트 자동 생성 (리드타임 분포, 회전율 추이)
+- Excel 보고서 자동 생성 (다중 시트, 이미지 포함)
+- 실무에서 바로 사용 가능한 통합 분석 도구
+
+### 8. 실무형 인벤토리 대시보드
+- 오빠두엑셀 스타일의 전문적인 대시보드
+- KPI 타일, 차트, 조건부서식 자동 생성
+- 상단 KPI 요약, 중앙 차트, 하단 상세 데이터 레이아웃
+- Dead Stock 위험도 구분 (90일+ 노랑, 180일+ 빨강)
+- 실무에서 바로 사용 가능한 레이아웃
+
+### 9. 자동 엑셀 리포트 생성
 - 타임스탬프가 포함된 고유 파일명
 - 다중 시트 구성 (창고별, 현장별, 요약, Dead Stock)
 - 자동 파일 열기 기능
@@ -70,6 +88,21 @@ python leadtime_analyzer.py
 python filtered_analysis.py
 ```
 
+### 7. 지도 시각화
+```bash
+python create_map_visualization.py
+```
+
+### 8. 종합 분석 리포트
+```bash
+python comprehensive_analysis_report.py
+```
+
+### 9. 실무형 대시보드
+```bash
+python create_dashboard.py
+```
+
 ## 📁 프로젝트 구조
 
 ```
@@ -87,6 +120,9 @@ warehouse_analytics/
 ├── anomaly_detection.py           # 물류 이상 감지 시스템
 ├── leadtime_analyzer.py           # 리드타임 분석
 ├── filtered_analysis.py           # 필터링 분석
+├── create_map_visualization.py    # 지도 시각화 시스템
+├── comprehensive_analysis_report.py # 종합 분석 리포트 시스템
+├── create_dashboard.py            # 실무형 인벤토리 대시보드
 ├── debug_inventory.py             # 재고 오류 진단
 └── README.md
 ```
@@ -113,6 +149,20 @@ warehouse_analytics/
 - 최장 체류일수: 512일
 - 평균 체류일수: 334.2일
 
+### 종합 분석 결과
+- Dead Stock (90일+): 1,741건
+- Site별 도달률 및 평균 리드타임 자동 계산
+- 창고별 월별 회전율 분석
+- 시각화 차트 자동 생성
+
+### 실무형 대시보드 구성
+- 📊 상단 KPI 타일 (총 입고, 총 출고, 현재 재고, Dead Stock)
+- 📈 월별 입고 추이 차트 (창고별)
+- 📉 월별 출고 추이 차트 (창고별)
+- 🏗️ 현장별 누적 입고 차트
+- 🚨 Dead Stock 상세 리스트 (조건부서식)
+- 📖 사용법 안내 시트
+
 ## 🔧 기술 스택
 
 - **Python 3.x**
@@ -120,6 +170,10 @@ warehouse_analytics/
 - **openpyxl**: 엑셀 파일 생성
 - **datetime**: 날짜/시간 처리
 - **numpy**: 수치 계산
+- **folium**: 인터랙티브 지도 생성
+- **matplotlib**: 차트 및 그래프 생성
+- **seaborn**: 고급 시각화
+- **xlsxwriter**: 전문적인 엑셀 대시보드 생성
 
 ## 📋 요구사항
 
@@ -134,8 +188,11 @@ pip install -r requirements.txt
 3. **물류 이상 감지**: 장기체류 품목 자동 식별
 4. **리드타임 분석**: Case별 입출고 시간 분석
 5. **필터링 분석**: 조건별 맞춤 분석
-6. **자동화**: 엑셀 파일 자동 생성 및 열기
-7. **검증 가능**: 디버깅 도구 포함
+6. **지도 시각화**: 지리적 위치 기반 인터랙티브 분석
+7. **종합 분석**: KPI, 회전율, 시각화 통합 분석
+8. **실무형 대시보드**: 오빠두엑셀 스타일의 전문적인 레이아웃
+9. **자동화**: 엑셀 파일 자동 생성 및 열기
+10. **검증 가능**: 디버깅 도구 포함
 
 ## 📝 라이선스
 
