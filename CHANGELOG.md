@@ -21,6 +21,18 @@
 - `scripts/visualization.py` (사용되지 않음)
 - outputs 폴더의 중복 파일들
 
+## [1.4.0] - 2025-06-20
+
+### Added
+- **AI Logistics Control Tower v2.5**
+  - OpenAI Responses API 연동 FastAPI 게이트웨이(`scripts/openai_gateway.py`) 추가
+  - 이미지/캡처(PNG/JPEG) 및 PDF 첨부 분석 지원
+  - Daily Briefing / Assistant / AI Risk Scan 기능 강화
+
+### Changed
+- `requirements.txt`를 FastAPI·OpenAI 연동을 위한 패키지로 확장
+- README에 게이트웨이 실행 및 HTML 사용 가이드 추가
+
 ## [1.2.0] - 2025-06-19
 
 ### Added
