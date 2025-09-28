@@ -20,6 +20,9 @@ from PyPDF2 import PdfReader
 LOGGER = logging.getLogger(__name__)
 
 
+DEFAULT_MODEL = "gpt-4o-mini"
+
+
 class ChatMessage(BaseModel):
     """사용자/AI 메시지 구조. | Chat message schema."""
 
@@ -107,11 +110,15 @@ def _build_user_content(prompt: str, files: Iterable[UploadFile], raw_payloads: 
     content: List[dict] = [{"type": "input_text", "text": prompt}]
     for idx, file in enumerate(files):
         data = raw_payloads[idx]
+        filename = file.filename or ""
+        display_name = file.filename or "unnamed attachment"
+        lower_name = filename.lower()
+
         if file.content_type and file.content_type.startswith("image/"):
             content.append(_image_to_base64(file, data))
-        elif (file.content_type == "application/pdf") or file.filename.lower().endswith(".pdf"):
+        elif (file.content_type == "application/pdf") or lower_name.endswith(".pdf"):
             pdf_text = _pdf_to_text(data)[:8000]
-            descriptor = f"\n[첨부 PDF: {file.filename}]\n"
+            descriptor = f"\n[첨부 PDF: {display_name}]\n"
             content.append({"type": "input_text", "text": descriptor + pdf_text})
         else:
             try:
@@ -119,7 +126,7 @@ def _build_user_content(prompt: str, files: Iterable[UploadFile], raw_payloads: 
             except UnicodeDecodeError:
                 decoded = base64.b64encode(data).decode("utf-8")
                 decoded = f"[base64-encoded attachment]\n{decoded[:6000]}"
-            content.append({"type": "input_text", "text": f"\n[첨부 파일: {file.filename}]\n{decoded[:8000]}"})
+            content.append({"type": "input_text", "text": f"\n[첨부 파일: {display_name}]\n{decoded[:8000]}"})
     return content
 
 
@@ -152,7 +159,7 @@ async def run_assistant(
     prompt: str = Form(..., max_length=4000),
     history: str = Form("[]"),
     files: List[UploadFile] | None = File(default=None),
-    model: str = Form("gpt-4.1-mini"),
+    model: str = Form(DEFAULT_MODEL),
 ) -> AssistantResponse:
     """어시스턴트 호출. | Execute assistant call."""
 
@@ -216,7 +223,7 @@ async def generate_briefing(payload: BriefingRequest) -> BriefingResponse:
                     "content": [{"type": "input_text", "text": prompt}],
                 },
             ],
-            model="gpt-4.1-mini",
+            model=DEFAULT_MODEL,
         )
     except Exception as exc:  # pragma: no cover - network failure
         LOGGER.exception("OpenAI call failed")
