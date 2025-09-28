@@ -73,7 +73,7 @@ warehouse_analytics/
 ### 1. 환경 설정
 ```bash
 # 필요한 라이브러리 설치
-pip install pandas openpyxl xlsxwriter
+pip install -r requirements.txt
 ```
 
 ### 2. 메인 스크립트 실행
@@ -107,6 +107,20 @@ python create_map_visualization.py
 # 실무용 리포트
 python generate_practical_report.py
 ```
+
+### 4. AI Logistics Control Tower (OpenAI 연동)
+
+1. OpenAI API 키 환경 변수 설정
+   ```bash
+   export OPENAI_API_KEY="sk-..."
+   ```
+2. FastAPI 게이트웨이 실행
+   ```bash
+   uvicorn scripts.openai_gateway:app --reload
+   ```
+3. `outputs/logistics_control_tower_v2.html` 파일을 브라우저에서 열거나 정적 서버로 제공하고, 기본 API 주소(`http://localhost:8000`)가 다른 경우 `window.APP_CONFIG = { apiBase: 'http://<host>:<port>' }` 를 HTML 상단 스크립트로 지정합니다.
+
+Daily Briefing, AI Assistant, AI Risk Scan 기능이 OpenAI Responses API를 통해 실시간으로 동작하며, 캡처 이미지(JPEG/PNG)와 PDF 첨부 분석을 지원합니다. 기타 텍스트 파일(csv/txt)도 함께 업로드하면 prompt에 병합되어 전달됩니다.
 
 ### 4. 결과 확인
 - `outputs/` 폴더에 타임스탬프가 포함된 엑셀 파일 생성
