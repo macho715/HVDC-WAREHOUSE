@@ -20,6 +20,7 @@
     .kbd{border:1px solid #475569;border-bottom-width:2px;border-radius:.375rem;padding:.15rem .35rem;font-family:ui-monospace,SFMono-Regular,Menlo,monospace}
     .tag{font-size:.75rem;padding:.1rem .4rem;border:1px solid #475569;border-radius:.5rem}
     .chip{display:inline-flex;align-items:center;gap:.25rem;padding:.25rem .5rem;border-radius:.5rem;background:rgba(79,70,229,.2);color:#c7d2fe;font-size:.75rem}
+    .assistant-bubble{white-space:pre-wrap}
   </style>
 </head>
 <body class="p-4">
@@ -94,8 +95,8 @@
         <div class="flex items-center gap-2">
           <label class="text-xs text-slate-300">Model
             <select id="assistant-model" class="ml-2 bg-slate-800 border border-slate-600 text-slate-100 text-xs rounded px-2 py-1">
-              <option value="gpt-4.1-mini">gpt-4.1-mini</option>
               <option value="gpt-4o-mini">gpt-4o-mini</option>
+              <option value="gpt-4o">gpt-4o</option>
             </select>
           </label>
         </div>
@@ -512,6 +513,27 @@
       renderAttachmentList();
     });
 
+    function appendConversationBubble(text, role){
+      const wrapper = document.createElement('div');
+      wrapper.className = role === 'user' ? 'text-right' : 'text-left';
+      const bubble = document.createElement('span');
+      bubble.className = role === 'user'
+        ? 'bg-purple-800/80 p-2 rounded-lg inline-block assistant-bubble'
+        : 'bg-slate-800 p-2 rounded-lg inline-block assistant-bubble';
+      bubble.textContent = text;
+      wrapper.appendChild(bubble);
+      assistantConversation.appendChild(wrapper);
+      assistantConversation.scrollTop = assistantConversation.scrollHeight;
+    }
+
+    function appendAssistantError(message){
+      const errorDiv = document.createElement('div');
+      errorDiv.className = 'text-left text-rose-300';
+      errorDiv.textContent = message;
+      assistantConversation.appendChild(errorDiv);
+      assistantConversation.scrollTop = assistantConversation.scrollHeight;
+    }
+
     document.getElementById('assistant-reset').addEventListener('click', ()=>{
       assistantHistory = [];
       assistantConversation.innerHTML = '<div class="text-slate-400">무엇을 도와드릴까요? (예: “다음 3일 스케줄 요약”)</div>';
@@ -593,19 +615,16 @@
       e.preventDefault();
       const input=document.getElementById('assistant-input');
       const q=input.value.trim(); if(!q) return;
-      assistantConversation.innerHTML += `<div class="text-right"><span class="bg-purple-800/80 p-2 rounded-lg inline-block">${q}</span></div>`;
+      appendConversationBubble(q, 'user');
       input.value='';
-      assistantConversation.scrollTop=assistantConversation.scrollHeight;
       try{
         const ans = await callAssistant(q, pendingAttachments);
-        assistantConversation.innerHTML += `<div class="text-left"><span class="bg-slate-800 p-2 rounded-lg inline-block">${ans.replace(/\n/g,'<br>')}</span></div>`;
-        assistantConversation.scrollTop=assistantConversation.scrollHeight;
+        appendConversationBubble(ans, 'assistant');
         pendingAttachments = [];
         assistantFileInput.value = '';
         renderAttachmentList();
       }catch(err){
-        assistantConversation.innerHTML += `<div class="text-left text-rose-300">${err.message}</div>`;
-        assistantConversation.scrollTop=assistantConversation.scrollHeight;
+        appendAssistantError(err.message);
       }
     });
 
